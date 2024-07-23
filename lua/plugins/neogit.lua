@@ -15,5 +15,6 @@ return {
 	-- 		require("neogit").refresh()
 	-- 	end,
 	-- }),
+	cmd = "Neogit",
 	config = true,
 }

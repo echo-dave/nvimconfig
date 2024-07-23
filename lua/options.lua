@@ -59,3 +59,7 @@ opt.foldcolumn = "1"
 opt.foldenable = true
 opt.foldlevelstart = 99
 opt.foldminlines = 2
+
+opt.spelllang = "en_us" -- spell for spell check use :set spell and :set nospell to turn on / off
+opt.showmode = false -- handled by lualine: insert, visual, normal
+opt.viminfo:append("h") -- prevent persistent searches

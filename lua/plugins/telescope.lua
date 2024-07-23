@@ -15,12 +15,16 @@ return {
 
 		telescope.setup({
 			defaults = {
+				initial_mode = "insert",
 				path_display = { "smart" },
 				mappings = {
 					i = {
 						["<C-k>"] = actions.move_selection_previous, -- move to prev result
 						["<C-j>"] = actions.move_selection_next, -- move to next result
 						["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
+					},
+					n = {
+						["dd"] = actions.delete_buffer, -- close buffers
 					},
 				},
 			},
@@ -40,6 +44,5 @@ return {
 		keymap.set("n", "<leader>fb", builtin.buffers, { desc = "buffer search" })
 		keymap.set("n", "<leader>fqf", builtin.quickfix, { desc = "open quickfix" })
 		keymap.set("n", "<leader>fds", builtin.lsp_document_symbols, { desc = "find symbols in file" })
-		keymap.set("n", "<leader>fws", "<cmd>Telescope session-lens<cr>", { desc = "session search" })
 	end,
 }

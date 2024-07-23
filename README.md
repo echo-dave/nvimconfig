@@ -58,48 +58,48 @@
 
 ### Search
 
-'/' search buffer
-':s/seach/replace/g' search and replace a line
-':%s/search/replace/gc' search and replace buffer with confirmation
-':Telescope lsp_definitions' go to current function defintion
-\<leader\>ff find files
-\<leader\>fs find strings
+'/' search buffer  
+':s/seach/replace/g' search and replace a line  
+':%s/search/replace/gc' search and replace buffer with confirmation  
+':Telescope lsp_definitions' go to current function definition  
+\<leader\>ff find files  
+\<leader\>fs find strings  
 \<leader\>ft find todos
 
 ### Basic Motions
 
-'f' followed by character goes to next instance - prepend number to skip
-'0' go to start of line
-'$' go to end of line
-'a' append after cursor
-'A' append end of line
-'i' insert before cursot
-'I' insert start of line
-']h' next hunk
+'f' followed by character goes to next instance - prepend number to skip  
+'0' go to start of line  
+'$' go to end of line  
+'a' append after cursor  
+'A' append end of line  
+'i' insert before cursor  
+'I' insert start of line  
+']h' next hunk  
 '[h' previous hunk
 
 ### Maintenance
 
-':checkhealth' Lazy check health of setup and plugin dependencies
-':Mason' update and install LSP, formatters, linters, etc
-':Lazy' update and intall configured plugins
+':checkhealth' Lazy check health of setup and plugin dependencies  
+':Mason' update and install LSP, formatters, linters, etc  
+':Lazy' update and install configured plugins
 
 ### Others
 
-<C-e> close auto complete without confirmation - should close lsp popups too
-'q' close nvim-tree pane if focus otherwise \<leader\>ee
-'q' close neogit and popups like :Lazy or :Mason interfaces and the ':Noice errors' popup
-':term' open a terminal
-<\ESC\><\ESC\> exit insert mode in a terminal buffer
+<C-e> close auto complete without confirmation - should close lsp popups too  
+'q' close nvim-tree pane if focus otherwise \<leader\>ee  
+'q' close neogit and popups like :Lazy or :Mason interfaces and the ':Noice errors' popup  
+':term' open a terminal  
+<\ESC\><\ESC\> exit insert mode in a terminal buffer  
 ':Neogit' do git things
 
 ### Sell Correction
 
-':set spell' enable builtin spell checker
-':set nospell' disapble spell checker
-']s' next mispelled
-'[s' previous mispelled
-'z=' suggest corrections
+':set spell' enable builtin spell checker  
+':set nospell' disable spell checker  
+']s' next misspelled  
+'[s' previous misspelled  
+'z=' suggest corrections  
 'zg' add to correct words
 
 [!NOTE]

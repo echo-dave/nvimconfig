@@ -10,6 +10,9 @@ return {
 		"rcarriga/nvim-notify",
 	},
 	config = function()
+		require("notify").setup({
+			max_width = 45,
+		})
 		local noice = require("noice")
 		noice.setup({
 			views = {
@@ -17,6 +20,14 @@ return {
 				-- 	-- 	timeout = 5000,
 				-- 	-- 	close_events = { "CursorMoved", "CursorMovedI", "InsertEnter" },
 				-- 	-- },
+				notify = {
+					backend = "notify",
+					fallback = "mini",
+					format = "notify",
+					replace = false,
+					merge = false,
+					max_width = 45,
+				},
 				cmdline_popup = {
 					position = {
 						row = "35%",

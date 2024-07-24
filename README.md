@@ -7,7 +7,7 @@
 > - [Neovim](https://github.com/neovim/neovim/releases) v0.10+ currently using v0.11 nightlies
 > - [fzf](https://github.com/junegunn/fzf/releases) brew, apt (outdate), binary
 > - [ripgrep](https://github.com/BurntSushi/ripgrep#installation) brew, apt (outdated), binary
-> - some flavor of [Nerd Font](https://www.nerdfonts.com/font-downloads) for you client (if running remotely it's your client terminal that needs the font not the server)
+> - some flavor of [Nerd Font](https://www.nerdfonts.com/font-downloads) for your client (if running remotely it's your client terminal that needs the font not the server)
 >
 > If any Treesitter parsers are missing in the :checkhealth `:TSInstall <parser>`
 

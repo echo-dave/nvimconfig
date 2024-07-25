@@ -11,6 +11,12 @@
 >
 > If any Treesitter parsers are missing in the :checkhealth `:TSInstall <parser>`
 
+> [!NOTE]
+>
+> Some tweaks are small screen specific - mostly messages
+> The coding setup is your basic HTML, CSS, Tailwind, JavaScript, and TypeScript with Svelte(Kit)
+> Configured with modular Lazy and Mason with git suppert via GitSigns and Neogit
+
 ## Plugin List
 
 | [#Git](#git) | [#Coding-Centric](#coding-centric-formatters-and-code-helpers) | [#UI-Related](#ui-related) | [#Utility](#utility) |
@@ -34,7 +40,7 @@
 - [**nvim-cmp**](https://github.com/hrsh7th/nvim-cmp) - nvim auto completions - `<C-space>` show, `<C-e>` close, `<CR>` confirm
 - [**nvim-surround**](https://github.com/tpope/vim-surround) - mappings for adding character around a selection `<C-s>`
 - [**nvim-tresitter**](https://github.com/tree-sitter/tree-sitter) - Nvim parser for syntax highlighting
-- [**todo-comments**](https://github.com/folke/todo-comments.nvim) - add todos as comments to files with `//TODO:` for JavaScript - highlighting and searchable - integrates with telescope `<leader>ft`
+- [**todo-comments**](https://github.com/folke/todo-comments.nvim) - add todos as comments to files with **'TODO:'** **'BUG:'** **'WARN:'** etc for highlighting and searchable - integrates with telescope `<leader>ft`
 - [**trouble**](https://github.com/folke/trouble.nvim) - diagnostics handler `<leader>xx` toggle diagnostics, `<leader>cl` toggle focus, `<leader>xQ` toggle quickfix list
 
 ### UI Related

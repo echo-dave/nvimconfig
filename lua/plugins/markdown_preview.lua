@@ -7,6 +7,7 @@ return {
 	config = function()
 		require("render-markdown").setup({
 			latex = { enabled = false },
+			pipe_table = { enabled = false },
 		})
 	end,
 }

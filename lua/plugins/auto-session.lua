@@ -5,8 +5,10 @@ return {
 	},
 	config = function()
 		local auto_session = require("auto-session")
+		local session_lens = require("auto-session.session-lens")
 
 		auto_session.setup({
+			-- log_level = "error",
 			auto_restore_enabled = false,
 			auto_session_suppress_dirs = { "~/", "~/Dev/", "~/Downloads", "~/Documents", "~/Desktop/" },
 
@@ -15,6 +17,7 @@ return {
 				previewer = false,
 				theme_conf = { border = true },
 				initial_mode = "normal",
+				buftypes_to_ignore = {},
 			},
 		})
 
@@ -22,10 +25,9 @@ return {
 
 		keymap.set("n", "<leader>wr", "<cmd>SessionRestore<CR>", { desc = "Restore session for cwd" }) -- restore last workspace session for current directory
 		keymap.set("n", "<leader>ws", "<cmd>SessionSave<CR>", { desc = "Save session for auto session root dir" }) -- save workspace session for current working directory
-		keymap.set("n", "<leader>fws", require("auto-session.session-lens").search_session, {
+		keymap.set("n", "<leader>fws", session_lens.search_session, {
 			noremap = true,
+			desc = "Tele session picker",
 		})
-		keymap.set("n", "<c-d>", ":SessionDelete<CR>", { noremap = true })
-		keymap.set("n", "<c-s>", ":SessionSave<CR>", { noremap = true })
 	end,
 }

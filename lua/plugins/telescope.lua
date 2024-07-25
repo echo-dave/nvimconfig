@@ -6,14 +6,39 @@ return {
 		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 		"nvim-tree/nvim-web-devicons",
 		"folke/todo-comments.nvim",
+		"rmagatti/auto-session",
 		-- "JoseConseco/telescope_sessions_picker.nvim",
 	},
 	config = function()
 		local telescope = require("telescope")
 		local actions = require("telescope.actions")
 		local builtin = require("telescope.builtin")
+		local autoSessionLensActions = require("auto-session.session-lens.actions")
+
+		local function wrapped_delete_session(prompt_bufnr)
+			print("Selected session deleted")
+			autoSessionLensActions.delete_session(prompt_bufnr)
+		end
+		-- NOTE: this seems to be bugged at the source
+		--
+		-- local function wrapped_alternate_session(prompt_bufnr)
+		-- 	print("Alt session toggled")
+		-- 	autoSessionLensActions.alternate_session(prompt_bufnr) -- doesn't seem to work
+		-- end
 
 		telescope.setup({
+			pickers = {
+				buffers = {
+					mappings = {
+						n = {
+							["dd"] = actions.delete_buffer, -- close buffers
+						},
+						i = {
+							["<C-d>"] = actions.delete_buffer, -- close buffers
+						},
+					},
+				},
+			},
 			defaults = {
 				initial_mode = "insert",
 				path_display = { "smart" },
@@ -24,14 +49,14 @@ return {
 						["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
 					},
 					n = {
-						["dd"] = actions.delete_buffer, -- close buffers
+						["<C-d>"] = wrapped_delete_session,
+						-- ["<C-s>"] = wrapped_alternate_session, -- NOTE: bugged in source
 					},
 				},
 			},
 		})
 
 		telescope.load_extension("fzf")
-		-- telescope.load_extension("sessions_picker")
 
 		-- set keymaps
 		local keymap = vim.keymap -- for conciseness

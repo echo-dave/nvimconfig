@@ -10,6 +10,9 @@ return {
 		"rcarriga/nvim-notify",
 	},
 	config = function()
+		require("notify").setup({
+			max_width = 45,
+		})
 		local noice = require("noice")
 		noice.setup({
 			views = {
@@ -17,6 +20,25 @@ return {
 				-- 	-- 	timeout = 5000,
 				-- 	-- 	close_events = { "CursorMoved", "CursorMovedI", "InsertEnter" },
 				-- 	-- },
+				-- 	NOTE: testing mini notifications due to notify truncating
+
+				messages = {
+					enabled = true, -- enables the Noice messages UI
+					view = "notify", -- default view for messages
+					view_error = "mini", -- view for errors
+					view_warn = "mini", -- view for warnings
+					view_history = "messages", -- view for :messages
+					view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
+				},
+				-- WARN: notify clips longer messages
+				notify = {
+					backend = "notify",
+					fallback = "mini",
+					format = "notify",
+					replace = false,
+					merge = false,
+					max_width = 45,
+				},
 				cmdline_popup = {
 					position = {
 						row = "35%",
@@ -68,6 +90,7 @@ return {
 						event = "msg_show",
 						kind = "",
 						find = "change",
+						max_height = 1,
 					},
 					opts = { skip = true },
 				},
@@ -76,22 +99,7 @@ return {
 						event = "msg_show",
 						kind = "",
 						find = "lines?%s+changed",
-					},
-					opts = { skip = true },
-				},
-				{
-					filter = {
-						event = "msg_show",
-						kind = "",
-						find = "lines?%s+changed",
-					},
-					opts = { skip = true },
-				},
-				{
-					filter = {
-						event = "msg_show",
-						kind = "",
-						find = "lines?%s+changed",
+						max_height = 1,
 					},
 					opts = { skip = true },
 				},
@@ -100,8 +108,17 @@ return {
 						event = "msg_show",
 						kind = "",
 						find = "written",
+						max_height = 1,
 					},
 					opts = { skip = true },
+				},
+				{
+					filter = { -- trying to capture long messages from commands like map / nmap that have no "kind"
+						event = "msg_show",
+						kind = { "" },
+						min_height = 5,
+					},
+					view = "popup",
 				},
 			},
 			lsp = {

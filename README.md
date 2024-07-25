@@ -13,9 +13,9 @@
 
 > [!NOTE]
 >
-> Some tweaks are small screen specific - mostly messages
-> The coding setup is your basic HTML, CSS, Tailwind, JavaScript, and TypeScript with Svelte(Kit)
-> Configured with modular Lazy and Mason with git suppert via GitSigns and Neogit
+> - Some tweaks are small screen specific - mostly messages
+> - The coding setup is your basic HTML, CSS, Tailwind, JavaScript, and TypeScript with Svelte(Kit)
+> - Configured with modular Lazy and Mason with git suppert via GitSigns and Neogit
 
 ## Plugin List
 

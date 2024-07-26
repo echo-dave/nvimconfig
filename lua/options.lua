@@ -62,4 +62,5 @@ opt.foldminlines = 2
 
 opt.spelllang = "en_us" -- spell for spell check use :set spell and :set nospell to turn on / off
 opt.showmode = false -- handled by lualine: insert, visual, normal
-opt.viminfo:append("h") -- prevent persistent searches
+opt.viminfo:append("h") -- prevent persistent searches (deprecated viminfo but shadafile not in use yet)
+opt.shada:append({ ["/"] = 0 }) -- prevent persistent searches

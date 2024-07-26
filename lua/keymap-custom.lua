@@ -37,3 +37,4 @@ keymap.set("t", "<ESC><ESC>", "<C-\\><C-N>", { noremap = true, desc = "return te
 keymap.set("v", "//", 'y/<C-r>"<CR>', { noremap = true, silent = true, desc = "visual search selected" })
 
 keymap.set("x", "p", "P", { noremap = true, desc = "paste without replacing clip" })
+keymap.set("n", "<leader>scr", ':let @/ = ""<CR>', { noremap = true, desc = "Search Register Clear" })

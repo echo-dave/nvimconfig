@@ -43,5 +43,6 @@ return {
 		) -- toggle file explorer on current file
 		keymap.set("n", "<leader>ec", "<cmd>NvimTreeCollapse<CR>", { desc = "Collapse file explorer" }) -- collapse file explorer
 		keymap.set("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh file explorer" }) -- refresh file explorer
+		keymap.set("n", "<leader>ep", "<cmd>NvimTreeOpen .<CR>", { desc = "Open PWD" }) -- open the cueent work directory
 	end,
 }

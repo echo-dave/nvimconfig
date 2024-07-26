@@ -28,7 +28,7 @@ return {
 			},
 			sections = {
 				lualine_a = { "mode" },
-				lualine_b = { "filename" },
+				lualine_b = {}, -- was "filename" but is shown in bufferline - condense for small screen
 				lualine_c = { "branch", "diff", "diagnostics" },
 				lualine_x = { "filetype" },
 				lualine_y = {

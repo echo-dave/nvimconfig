@@ -16,6 +16,7 @@
 > - Some tweaks are small screen specific - mostly messages
 > - The coding setup is your basic HTML, CSS, Tailwind, JavaScript, and TypeScript with Svelte(Kit)
 > - Configured with modular Lazy and Mason with git suppert via GitSigns and Neogit
+> - `:ToggleTheme` swiches from catppuccin mocha (dark) to latte (light) - see theme.lua
 
 ## Plugin List
 

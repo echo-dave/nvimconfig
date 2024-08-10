@@ -119,21 +119,21 @@ return {
 					end,
 				})
 			end,
-			["tailwindCSS"] = function()
-				lspconfig["tailwindCSS"].setup({
-					settings = {
-						tailwindCSS = {
-							experimental = {
-								classRegex = {
-									{ "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
-									{ "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
-								},
-							},
-							validate = true,
-						},
-					},
-				})
-			end,
+			-- ["tailwindCSS"] = function()
+			-- 	lspconfig["tailwindCSS"].setup({
+			-- 		settings = {
+			-- 			tailwindCSS = {
+			-- 				experimental = {
+			-- 					classRegex = {
+			-- 						{ "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
+			-- 						{ "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+			-- 					},
+			-- 				},
+			-- 				validate = true,
+			-- 			},
+			-- 		},
+			-- 	})
+			-- end,
 			--["graphql"] = function()
 			--  -- configure graphql language server
 			--  lspconfig["graphql"].setup({

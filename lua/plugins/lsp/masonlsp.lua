@@ -12,6 +12,15 @@ return {
 		local mason_lspconfig = require("mason-lspconfig")
 		local mason_tool_installer = require("mason-tool-installer")
 
+		local lspconfig = require("lspconfig")
+
+		-- lspconfig.html.setup({
+		-- 	on_attach = function(client, bufnr)
+		-- 		-- Enable completion triggered by <c-x><c-o>
+		-- 		vim.api.nvim_set_option_value("filetype", "html", { buf = bufnr })
+		-- 	end,
+		-- })
+
 		mason.setup({
 			ui = {
 				icons = {
@@ -26,7 +35,8 @@ return {
 			-- list of servers for mason to install
 			ensure_installed = {
 				"tsserver",
-				"html",
+				-- "html",
+				-- "emmet_ls",
 				"cssls",
 				-- "tailwindcss",
 				"svelte",

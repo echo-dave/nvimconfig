@@ -12,19 +12,20 @@ return {
 	config = function()
 		require("notify").setup({
 			max_width = 45,
+			timeout = 10,
 		})
 		local noice = require("noice")
 		noice.setup({
 			views = {
-				-- 	-- mini = {
-				-- 	-- 	timeout = 5000,
-				-- 	-- 	close_events = { "CursorMoved", "CursorMovedI", "InsertEnter" },
-				-- 	-- },
+				-- mini = {
+				-- 	timeout = 5000,
+				-- 	close_events = { "CursorMoved", "CursorMovedI", "InsertEnter" },
+				-- },
 				-- 	NOTE: testing mini notifications due to notify truncating
 
 				messages = {
 					enabled = true, -- enables the Noice messages UI
-					view = "notify", -- default view for messages
+					-- view = "notify", -- default view for messages
 					view_error = "mini", -- view for errors
 					view_warn = "mini", -- view for warnings
 					view_history = "messages", -- view for :messages

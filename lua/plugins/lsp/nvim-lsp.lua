@@ -119,21 +119,21 @@ return {
 					end,
 				})
 			end,
-			-- ["tailwindCSS"] = function()
-			-- 	lspconfig["tailwindCSS"].setup({
-			-- 		settings = {
-			-- 			tailwindCSS = {
-			-- 				experimental = {
-			-- 					classRegex = {
-			-- 						{ "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
-			-- 						{ "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
-			-- 					},
-			-- 				},
-			-- 				validate = true,
-			-- 			},
-			-- 		},
-			-- 	})
-			-- end,
+			["tailwindCSS"] = function()
+				lspconfig["tailwindCSS"].setup({
+					settings = {
+						tailwindCSS = {
+							experimental = {
+								classRegex = {
+									{ "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
+									{ "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+								},
+							},
+							validate = true,
+						},
+					},
+				})
+			end,
 			--["graphql"] = function()
 			--  -- configure graphql language server
 			--  lspconfig["graphql"].setup({
@@ -141,13 +141,33 @@ return {
 			--    filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
 			--  })
 			--end,
-			--["emmet_ls"] = function()
-			--  -- configure emmet language server
-			--  lspconfig["emmet_ls"].setup({
-			--    capabilities = capabilities,
-			--    filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
-			--  })
-			--end,
+			-- require('lspconfig').html.setup {}
+
+			-- ["html"] = function()
+			-- 	-- configure emmet language server
+			-- 	lspconfig["html"].setup({
+			-- 		capabilities = capabilities,
+			-- 		filetypes = {
+			-- 			"html",
+			-- 		},
+			-- 	})
+			-- end,
+			["emmet_ls"] = function()
+				-- configure emmet language server
+				lspconfig["emmet_ls"].setup({
+					capabilities = capabilities,
+					filetypes = {
+						"html",
+						"typescriptreact",
+						"javascriptreact",
+						"css",
+						"sass",
+						"scss",
+						"less",
+						"svelte",
+					},
+				})
+			end,
 			["lua_ls"] = function()
 				-- configure lua server (with special settings)
 				lspconfig["lua_ls"].setup({

@@ -9,8 +9,8 @@ return {
 
 		auto_session.setup({
 			-- log_level = "error",
-			auto_restore_enabled = false,
-			auto_session_suppress_dirs = { "~/", "~/Dev/", "~/Downloads", "~/Documents", "~/Desktop/" },
+			auto_restore = false,
+			suppressed_dirs = { "~/", "~/Dev/", "~/Downloads", "~/Documents", "~/Desktop/" },
 
 			session_lens = {
 				load_on_setup = true,

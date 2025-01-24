@@ -12,7 +12,8 @@ return {
 	config = function()
 		require("notify").setup({
 			max_width = 45,
-			timeout = 10,
+			timeout = 2500,
+			background_colour = "#000000",
 		})
 		local noice = require("noice")
 		noice.setup({

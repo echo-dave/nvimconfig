@@ -4,6 +4,7 @@ return {
 
 	config = function()
 		local lualine = require("lualine")
+		local codeium = pcall(require, "codeium")
 		local noice = require("noice")
 		local recStatus
 		local function shortened_hostname()
@@ -28,7 +29,13 @@ return {
 			},
 			sections = {
 				lualine_a = { "mode" },
-				lualine_b = {}, -- was "filename" but is shown in bufferline - condense for small screen
+				lualine_b = {
+					function()
+						if codeium ~= nil then
+							return vim.api.nvim_call_function("codeium#GetStatusString", {})
+						end
+					end,
+				}, -- was "filename" but is shown in bufferline - condense for small screen
 				lualine_c = { "branch", "diff", "diagnostics" },
 				lualine_x = { "filetype" },
 				lualine_y = {

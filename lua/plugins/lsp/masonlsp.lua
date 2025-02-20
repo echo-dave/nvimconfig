@@ -42,6 +42,7 @@ return {
 				"svelte",
 				"lua_ls",
 			},
+			automatic_installation = false,
 		})
 		mason_tool_installer.setup({
 			ensure_installed = {

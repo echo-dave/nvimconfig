@@ -4,67 +4,52 @@ local function getbranch()
 	return "Git Branch Status: " .. (branchName ~= "" and branchName or "not in a git repository")
 end
 local branch = getbranch()
+local ghformat =
+	'\'{{range .}}{{color "green" (printf "#%v" .number | printf "%-2s")}} {{.title | printf "%-20.20s"}} {{range .labels}}[{{.name | printf "%-.6s"}}]{{end}} {{timeago .updatedAt}}\n{{end}}\''
+local function shorten_path(full_path)
+	return vim.fn.fnamemodify(full_path, ":~")
+end
 return {
 	"folke/snacks.nvim",
 	priority = 1000,
 	lazy = false,
-	---@type snacks.Config
 	opts = {
 		-- your configuration comes here
 		-- or leave it empty to use the default settings
 		-- refer to the configuration section below
 		bigfile = { enabled = false },
 		dashboard = {
-
 			sections = {
-				{ section = "header", pane = 1, width = vim.o.columns },
-
-				-- {
-				-- 	pane = 2,
-				-- 	section = "terminal",
-				-- 	-- cmd = "colorscript -e square",
-				-- 	height = 5,
-				-- 	padding = 1,
-				-- },
-				-- { section = "keys", gap = 1, padding = 1 },
-				-- {
-				-- 	pane = 2,
-				-- 	icon = " ",
-				-- 	desc = "Browse Repo",
-				-- 	padding = 1,
-				-- 	key = "b",
-				-- 	action = function()
-				-- 		Snacks.gitbrowse()
-				-- 	end,
-				-- },
+				{
+					title = "Notifications",
+					cmd = "gh notify -san 4",
+					section = "terminal",
+					action = function()
+						vim.ui.open("https://github.com/notifications")
+					end,
+					key = "n",
+					icon = " ",
+					height = 8,
+					enabled = true,
+				},
 				function()
 					local in_git = Snacks.git.get_root() ~= nil
 					local cmds = {
-						-- {
-						-- 	title = "Notifications",
-						-- 	cmd = "gh notify -s -a -n5",
-						-- 	action = function()
-						-- 		vim.ui.open("https://github.com/notifications")
-						-- 	end,
-						-- 	key = "n",
-						-- 	icon = " ",
-						-- 	height = 5,
-						-- 	enabled = true,
-						-- },
-						-- {
-						-- 	title = "Open Issues",
-						-- 	cmd = "gh issue list -L 3",
-						-- 	key = "i",
-						-- 	action = function()
-						-- 		vim.fn.jobstart("gh issue list --web", { detach = true })
-						-- 	end,
-						-- 	icon = " ",
-						-- 	height = 7,
-						-- },
+						{
+							title = "Open Issues",
+							cmd = "gh issue list -L 3 --json number,title,updatedAt,labels -t " .. ghformat,
+							key = "i",
+							action = function()
+								vim.fn.jobstart("gh issue list --web", { detach = true })
+							end,
+							icon = " ",
+							height = 7,
+							padding = { 1, 0 }, --bottom, top
+						},
 						{
 							icon = " ",
 							title = "Open PRs",
-							cmd = "gh pr list -L 3",
+							cmd = "gh pr list -L 3 --json number,title,updatedAt,labels -t " .. ghformat,
 							key = "P",
 							action = function()
 								vim.fn.jobstart("gh pr list --web", { detach = true })
@@ -98,13 +83,26 @@ return {
 					end, cmds)
 				end,
 				{
+					pane = 3,
+					icon = " ",
+					title = "Projects",
+					section = "projects",
+					action = function(item)
+						vim.cmd("PossessionLoad " .. shorten_path(item))
+					end,
+					indent = 2,
+					padding = 1,
+				},
+				{
 					section = "recent_files",
-					title = "Rrecent Files",
+					title = "Recent Files",
+					cwd = true,
 					limit = 5,
 					padding = { 1, 0 }, --bottom, top
 					pane = 3,
 					width = 10,
 					align = "left",
+					indent = 2,
 				},
 				{ section = "startup" },
 			},
@@ -113,7 +111,7 @@ return {
 		indent = { enabled = true },
 		input = { enabled = true },
 		picker = { enabled = true },
-		notifier = { enabled = true, timeout = 5000 },
+		notifier = { enabled = true, timeout = 4000 },
 		quickfile = { enabled = false },
 		scope = { enabled = false },
 		scroll = { enabled = false },
@@ -129,7 +127,7 @@ return {
 			desc = "Notification History",
 		},
 		{
-			"<leader>sd",
+			"<leader>ss",
 			function()
 				require("snacks.dashboard").open()
 			end,

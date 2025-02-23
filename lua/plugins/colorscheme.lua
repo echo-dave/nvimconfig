@@ -13,6 +13,13 @@ return {
 					light = "latte",
 					dark = "mocha",
 				},
+				integrations = {
+					cmp = true,
+					gitsigns = true,
+					nvimtree = true,
+					treesitter = true,
+					blink_cmp = true,
+				},
 			})
 
 			vim.cmd.colorscheme("catppuccin")

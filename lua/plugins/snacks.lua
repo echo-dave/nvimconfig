@@ -31,6 +31,7 @@ return {
 					icon = " ",
 					height = 8,
 					enabled = true,
+					pane = 1,
 				},
 				function()
 					local in_git = Snacks.git.get_root() ~= nil
@@ -66,8 +67,8 @@ return {
 						},
 						{
 							cmd = "git --no-pager diff --stat -B -M -C",
-							height = 10,
-							padding = { 0, 0 }, --bottom, top
+							height = 8,
+							padding = { 0, -1 }, --bottom, top
 						},
 					}
 					return vim.tbl_map(function(cmd)
@@ -90,7 +91,7 @@ return {
 					action = function(item)
 						vim.cmd("PossessionLoad " .. shorten_path(item))
 					end,
-					indent = 2,
+					indent = 3,
 					padding = 1,
 				},
 				{
@@ -111,7 +112,15 @@ return {
 		indent = { enabled = true },
 		input = { enabled = true },
 		picker = { enabled = true },
-		notifier = { enabled = true, timeout = 4000 },
+		notifier = {
+			enabled = false,
+			level = "trace",
+			history = {
+				filter = "trace", -- This will capture all levels of notifications
+				sort = { "added" },
+				reverse = true, -- Most recent notifications first
+			},
+		},
 		quickfile = { enabled = false },
 		scope = { enabled = false },
 		scroll = { enabled = false },
@@ -119,19 +128,85 @@ return {
 		words = { enabled = false },
 	},
 	keys = {
-		{
-			"<leader>n",
-			function()
-				Snacks.notifier.show_history()
-			end,
-			desc = "Notification History",
-		},
+		-- {
+		-- 	"<leader>n",
+		-- 	function()
+		-- 		Snacks.notifier.show_history()
+		-- 	end,
+		-- 	desc = "Notification History",
+		-- },
 		{
 			"<leader>ss",
 			function()
 				require("snacks.dashboard").open()
 			end,
 			desc = "Open Snacks Dashboard",
+		},
+		{
+			"<leader>gl",
+			function()
+				Snacks.picker.git_log()
+			end,
+			desc = "Git Log",
+		},
+		{
+			"<leader>gL",
+			function()
+				Snacks.picker.git_log_line()
+			end,
+			desc = "Git Log Line",
+		},
+		{
+			"<leader>gs",
+			function()
+				Snacks.picker.git_status()
+			end,
+			desc = "Git Status",
+		},
+		{
+			"<leader>fp",
+			function()
+				require("snacks.picker").pick({
+					source = "projects",
+					focus = "list",
+				})
+			end,
+			desc = "Projects",
+		},
+		{
+			"<leader>sd",
+			function()
+				Snacks.picker.diagnostics()
+			end,
+			desc = "Diagnostics",
+		},
+		{
+			"<leader>sD",
+			function()
+				Snacks.picker.diagnostics_buffer()
+			end,
+			desc = "Buffer Diagnostics",
+		},
+		{
+			"<leader>sj",
+			function()
+				Snacks.picker.jumps()
+			end,
+			desc = "Jumps",
+		},
+		{
+			"<leader>sf",
+			function()
+				Snacks.picker.files()
+			end,
+			desc = "Find Files",
+		},
+		{
+			"<leader>sb",
+			function()
+				Snacks.picker.buffers()
+			end,
+			desc = "Buffers",
 		},
 	},
 }

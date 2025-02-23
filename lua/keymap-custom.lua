@@ -1,6 +1,21 @@
 -- set leader key to space
 vim.g.mapleader = " "
 
+vim.api.nvim_create_user_command("LspAllInfo", function()
+	local clients = vim.lsp.get_clients({ all = true })
+	for _, client in ipairs(clients) do
+		local status = client:is_stopped() and "Inactive" or "Active"
+		print(string.format("Client: %s (ID: %d) - Status: %s", client.name, client.id, status))
+		print("  Root directory: " .. (client.config.root_dir or "Not set"))
+		print("  Attached buffers: " .. vim.inspect(vim.lsp.get_buffers_by_client_id(client.id)))
+		print("------------------")
+	end
+end, {})
+
+vim.api.nvim_create_user_command("LspInfo", function()
+	print(vim.inspect(vim.lsp.get_clients()))
+end, {})
+
 local keymap = vim.keymap -- for conciseness
 
 ---------------------

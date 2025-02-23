@@ -5,22 +5,22 @@ return {
 	config = function()
 		local lualine = require("lualine")
 		local codeium = pcall(require, "codeium")
-		local noice = require("noice")
+	local noice = require("noice")
 		local recStatus
-		local function shortened_hostname()
-			local hostname = vim.loop.os_gethostname()
-			local short_hostname = hostname:match("^([^%.]+)")
-			return short_hostname or hostname
-		end
+	local function shortened_hostname()
+		local hostname = vim.loop.os_gethostname()
+		local short_hostname = hostname:match("^([^%.]+)")
+		return short_hostname or hostname
+	end
 
-		local function hostnameOrRec()
-			local noiceRec = noice.api.status.mode
-			if noiceRec.has() then
-				return noiceRec.get()
-			else
-				return shortened_hostname()
-			end
+	local function hostnameOrRec()
+		local noiceRec = noice.api.status.mode
+		if noiceRec.has() then
+			return noiceRec.get()
+		else
+			return shortened_hostname()
 		end
+	end
 
 		lualine.setup({
 			options = {
@@ -48,20 +48,20 @@ return {
 				},
 				lualine_z = {
 					{
-						hostnameOrRec,
-						cond = function()
-							recStatus = noice.api.status.mode.has()
-							-- print("status rec:", recStatus)
-							return recStatus
-						end,
+					hostnameOrRec,
+					cond = function()
+						recStatus = noice.api.status.mode.has()
+						-- print("status rec:", recStatus)
+						return recStatus
+					end,
 						color = { fg = "#ff9e64", bg = "#181825" }, -- #181825 dark blue
 					},
 					{
-						shortened_hostname,
-						cond = function()
-							-- print("status host:", not recStatus)
-							return not recStatus
-						end,
+					shortened_hostname,
+					cond = function()
+						-- print("status host:", not recStatus)
+						return not recStatus
+					end,
 					},
 				},
 			},

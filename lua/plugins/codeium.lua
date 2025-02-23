@@ -25,7 +25,7 @@ return {
 		-- Clear suggestions <c-x>
 
 		-- vim.g.codeium_enabled = false
-		vim.g.codeium_manual = true
+		-- vim.g.codeium_manual = true
 		vim.g.condium_idle_delay = 1500
 		vim.g.codeium_filetypes = {
 			markdown = false,

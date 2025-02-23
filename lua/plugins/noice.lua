@@ -141,4 +141,8 @@ return {
 			},
 		})
 	end,
+	keys = {
+		{ "<leader>na", "<cmd>NoiceAll<cr>", desc = "Noice All" },
+		{ "<leader>nd", "<cmd>NoiceDismiss<cr>", desc = "Noice Dismiss" },
+	},
 }

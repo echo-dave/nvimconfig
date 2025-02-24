@@ -1,6 +1,16 @@
 -- set leader key to space
 vim.g.mapleader = " "
 
+local key = vim.keymap.set
+-- lsp related
+
+key("n", "[d", function()
+	vim.diagnostic.jump({ count = -1 })
+end, { desc = "Go to previous diagnostic" }) -- jump to previous diagnostic in buffer
+key("n", "]d", function()
+	vim.diagnostic.jump({ count = 1 })
+end, { desc = "Go to next diagnostic" }) -- jump to next diagnostic in buffer
+
 vim.api.nvim_create_user_command("LspAllInfo", function()
 	local clients = vim.lsp.get_clients({ all = true })
 	for _, client in ipairs(clients) do

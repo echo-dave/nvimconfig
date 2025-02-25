@@ -12,7 +12,7 @@ return {
 		local mason_lspconfig = require("mason-lspconfig")
 		local mason_tool_installer = require("mason-tool-installer")
 
-		local lspconfig = require("lspconfig")
+		-- local lspconfig = require("lspconfig")
 
 		-- lspconfig.html.setup({
 		-- 	on_attach = function(client, bufnr)

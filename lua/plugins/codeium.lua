@@ -28,6 +28,7 @@ return {
 		-- vim.g.codeium_manual = true
 		vim.g.condium_idle_delay = 1500
 		vim.g.codeium_filetypes = {
+			cmdline = false,
 			markdown = false,
 			-- lua = false,
 		}

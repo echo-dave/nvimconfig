@@ -1,4 +1,4 @@
-function gh_make_issue()
+local function gh_make_issue()
 	vim.cmd("enew")
 	vim.cmd("terminal")
 	-- Get the buffer number of the terminal
@@ -12,7 +12,7 @@ function gh_make_issue()
 	vim.cmd("startinsert")
 end
 
-function gh_make_pr()
+local function gh_make_pr()
 	vim.cmd("enew")
 	vim.cmd("terminal")
 	-- Get the buffer number of the terminal

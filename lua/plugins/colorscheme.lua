@@ -19,6 +19,7 @@ return {
 					nvimtree = true,
 					treesitter = true,
 					blink_cmp = true,
+					diffview = true,
 				},
 			})
 

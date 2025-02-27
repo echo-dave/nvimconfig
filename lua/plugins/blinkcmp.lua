@@ -91,6 +91,11 @@ return {
 						return vim.fn.getcmdtype() ~= ":" or not vim.fn.getcmdline():match("^[%%0-9,'<>%-]*!")
 					end,
 				},
+				lazydev = {
+					name = "LazyDev",
+					module = "lazydev.integrations.blink",
+					score_offset = 100, -- Show at a higher priority than LSP
+				},
 				lsp = {
 					name = "LSP",
 					module = "blink.cmp.sources.lsp",

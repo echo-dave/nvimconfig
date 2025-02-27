@@ -102,10 +102,24 @@ return {
 					fallbacks = { "buffer" },
 					-- Filter text items from the LSP provider, since we have the buffer provider for that
 					transform_items = function(_, items)
+						local kind = require("blink.cmp.types").CompletionItemKind
 						return vim.tbl_filter(function(item)
-							local kind = require("blink.cmp.types").CompletionItemKind
-							if item.kind == kind.Variable then
-								return item.label:sub(1, 2) == "--"
+							--Get the current line and cursor position
+							local line = vim.api.nvim_get_current_line()
+							local col = vim.api.nvim_win_get_cursor(0)[2]
+
+							-- Check if we're in a style tag or CSS context within Svelte
+							local is_css_context = line:sub(1, col):match("<style[^>]*>")
+							-- or line:match("^%s*[%w-]+%s*:")
+							-- or line:match("^%s*%.")
+
+							if is_css_context and item.kind == kind.Variable then
+								return true
+							elseif item.kind == kind.Variable then
+								-- For non-CSS contexts, allow all variables
+
+								return item.label:sub(1, 2) ~= "--"
+								-- return true
 							end
 							return item.kind ~= kind.Text
 						end, items)

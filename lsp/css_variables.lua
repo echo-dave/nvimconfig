@@ -1,8 +1,31 @@
+local blink_cmp = require("blink.cmp")
+local capabilities = blink_cmp.get_lsp_capabilities({ include_nvim_defaults = true })
+capabilities.textDocument.colorProvider = {
+	dynamicRegistration = true,
+}
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 return {
 	cmd = { "css-variables-language-server", "--stdio" },
-	filetypes = { "css", "scss", "less", "svelte", "vue" },
+	filetypes = {
+		"astro",
+		"svelte",
+		"vue",
+		"vue-html",
+		"vue-postcss",
+		"scss",
+		"postcss",
+		"less",
+		"css",
+		"html",
+		"javascript",
+		"javascriptreact",
+		"typescript",
+		"typescriptreact",
+		"source.css.styled",
+	},
 	root_markers = { "package.json", ".git" },
 	settings = {
+		capabilities = capabilities,
 		cssVariables = {
 			suggestInNonCssFiles = false,
 			blacklistFolders = {
@@ -20,7 +43,7 @@ return {
 				"**/tmp",
 			},
 			lookupFiles = { "**/*.less", "**/*.scss", "**/*.sass", "**/*.css" },
-			lookupPrefix = "--",
+			-- lookupPrefix = "--",
 		},
 	},
 }

@@ -1,5 +1,5 @@
 local mason_bin_path = vim.fn.stdpath("data") .. "/mason/bin/"
---
+
 -- local capabilities = vim.lsp.protocol.make_client_capabilities()
 -- capabilities.textDocument.completion.completionItem.snippetSupport = true
 -- capabilities.textDocument.completion.completionItem.resolveSupport = {
@@ -11,20 +11,6 @@ local mason_bin_path = vim.fn.stdpath("data") .. "/mason/bin/"
 -- }
 -- capabilities.textDocument.semanticTokens.multilineTokenSupport = true
 -- capabilities.textDocument.colorProvider = { dynamicRegistration = true }
-
-local function convert_completion_item(item)
-	print("complete")
-	if item.kind == vim.lsp.protocol.CompletionItemKind.Color then
-		print("is color")
-		local color = item.label:match("#%x%x%x%x%x%x") or item.label:match("rgb%(%d+,%s*%d+,%s*%d+%)")
-		if color then
-			local hl_group = "LSP_Color_" .. color:gsub("#", ""):gsub(",", "_")
-			vim.api.nvim_set_hl(0, hl_group, { bg = color })
-			item.kind_hl_group = hl_group
-		end
-	end
-	return item
-end
 
 local blink_cmp = require("blink.cmp")
 local capabilities = blink_cmp.get_lsp_capabilities({ include_nvim_defaults = true })
@@ -43,16 +29,20 @@ return {
 						if not err and result and result.items then
 							for _, item in ipairs(result.items) do
 								if item.kind == vim.lsp.protocol.CompletionItemKind.Color then
+									local color
 									if item.documentation then
-										local color = item.documentation:match("#%x%x%x%x%x%x")
-										if color then
-											local group = "HexColor" .. color:sub(2)
-											if vim.fn.hlID(group) < 1 then
-												vim.api.nvim_set_hl(0, group, { fg = color, bold = true })
-											end
-											item.kind_hl = group
-											item.kind_icon = "██" -- Add a color swatch icon
+										color = item.documentation:match("#%x%x%x%x%x%x")
+									end
+									if not color and item.detail then
+										color = item.detail:match("#%x%x%x%x%x%x")
+									end
+									if color then
+										local group = "HexColor" .. color:sub(2)
+										if vim.fn.hlID(group) < 1 then
+											vim.api.nvim_set_hl(0, group, { fg = color, bold = true })
 										end
+										item.kind_hl = group
+										item.kind_icon = "██" -- Add a color swatch icon
 									end
 								end
 							end
@@ -92,8 +82,8 @@ return {
 		"ts_ls",
 		"emmet_ls",
 		"tailwind",
-		"css_variables",
+		-- "css_variables",
 		"html",
-		-- "css",
+		"css",
 	}),
 }

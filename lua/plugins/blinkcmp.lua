@@ -1,7 +1,7 @@
 return {
 	"saghen/blink.cmp",
 	-- optional: provides snippets for the snippet source
-	dependencies = "rafamadriz/friendly-snippets",
+	-- dependencies = { "rafamadriz/friendly-snippets" },
 
 	-- use a release tag to download pre-built binaries
 	version = "*",
@@ -29,36 +29,90 @@ return {
 		},
 		completion = {
 			documentation = {
-				auto_show = false,
-				auto_show_delay_ms = 500,
+				auto_show = true,
+				auto_show_delay_ms = 100,
+				treesitter_highlighting = true,
+				draw = function(opts)
+					opts.default_implementation()
+				end,
+				window = {
+					min_width = 10,
+					max_width = 45,
+					max_height = 10,
+					border = "padded",
+					winblend = 0,
+					winhighlight = "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,EndOfBuffer:BlinkCmpDoc",
+					-- Note that the gutter will be disabled when border ~= 'none'
+					scrollbar = true,
+					-- Which directions to show the documentation window,
+					-- for each of the possible menu window directions,
+					-- falling back to the next direction when there's not enough space
+					direction_priority = {
+						menu_north = { "e", "w", "n", "s" },
+						menu_south = { "e", "w", "s", "n" },
+					},
+				},
 			},
-			list = { selection = { preselect = true, auto_insert = false } },
+			list = { max_items = 15, selection = { preselect = true, auto_insert = false } },
 
 			menu = {
+				border = "single",
 				-- don't show when searching
 				auto_show = function(ctx)
 					return ctx.mode ~= "cmdline" or not vim.tbl_contains({ "/", "?" }, vim.fn.getcmdtype())
 				end,
 				draw = {
+					align_to = "label",
+					-- Left and right padding, optionally { left, right } for different padding on each side
+					padding = 1,
+					-- Gap between columns
+					gap = 2,
 					columns = {
-						{ "label", "label_description", gap = 1 },
-						{ "kind_icon", "kind" },
-						treesitter = {},
+						{ "kind_icon", "label", gap = 1 },
+						{ "kind", "label_description", gap = 1 },
+						-- { "source_name" },
+					},
+					treesitter = { "lsp" },
+					components = {
+						label = {
+							width = { fill = true, max = 60 },
+						},
+						label_description = {
+							width = { max = 30 },
+							text = function(ctx)
+								return ctx.label_description
+							end,
+							highlight = "BlinkCmpLabelDescription",
+						},
+						source_name = {
+							width = { max = 30 },
+							text = function(ctx)
+								return ctx.source_name
+							end,
+							highlight = "BlinkCmpSource",
+						},
 					},
 				},
 			},
 			trigger = {
 				show_on_keyword = true,
-				prefetch_on_insert = false,
-				show_on_trigger_character = false,
+				prefetch_on_insert = true,
+				show_in_snippet = true,
+				show_on_trigger_character = true,
+				show_on_blocked_trigger_characters = { " ", "\n", "\t" },
+				show_on_accept_on_trigger_character = false,
+				show_on_insert_on_trigger_character = true,
+				show_on_x_blocked_trigger_characters = { "'", '"', "(" },
 			},
 		},
 		fuzzy = {
+			implementation = "prefer_rust_with_warning",
 			max_typos = function(keyword)
-				return math.floor(0)
+				return math.floor(#keyword / 2)
 			end,
-			use_frecency = true,
-			use_proximity = false,
+			use_frecency = false,
+			use_proximity = true,
+			use_unsafe_no_lock = false,
 			sorts = { "score", "sort_text" },
 			prebuilt_binaries = {
 				download = true,
@@ -73,7 +127,7 @@ return {
 			-- Sets the fallback highlight groups to nvim-cmp's highlight groups
 			-- Useful for when your theme doesn't support blink.cmp
 			-- Will be removed in a future release
-			use_nvim_cmp_as_default = true,
+			use_nvim_cmp_as_default = false,
 			-- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
 			-- Adjusts spacing to ensure icons are aligned
 			nerd_font_variant = "mono",
@@ -100,46 +154,20 @@ return {
 					name = "LSP",
 					module = "blink.cmp.sources.lsp",
 					fallbacks = { "buffer" },
-					-- Filter text items from the LSP provider, since we have the buffer provider for that
-					transform_items = function(_, items)
-						local kind = require("blink.cmp.types").CompletionItemKind
-						return vim.tbl_filter(function(item)
-							--Get the current line and cursor position
-							local line = vim.api.nvim_get_current_line()
-							local col = vim.api.nvim_win_get_cursor(0)[2]
-
-							-- Check if we're in a style tag or CSS context within Svelte
-							local is_css_context = line:sub(1, col):match("<style[^>]*>")
-							-- or line:match("^%s*[%w-]+%s*:")
-							-- or line:match("^%s*%.")
-
-							if is_css_context and item.kind == kind.Variable then
-								return true
-							elseif item.kind == kind.Variable then
-								-- For non-CSS contexts, allow all variables
-
-								return item.label:sub(1, 2) ~= "--"
-								-- return true
-							end
-							return item.kind ~= kind.Text
-						end, items)
-					end,
-
 					--- These properties apply to !!ALL sources!!
 					--- NOTE: All of these options may be functions to get dynamic behavior
 					--- See the type definitions for more information
 					enabled = true, -- Whether or not to enable the provider
-					async = false, -- Whether we should wait for the provider to return before showing the completions
-					timeout_ms = 2000, -- How long to wait for the provider to return before showing completions and treating it as asynchronous
+					async = true, -- Whether we should wait for the provider to return before showing the completions
+					timeout_ms = 1000, -- How long to wait for the provider to return before showing completions and treating it as asynchronous
 					-- transform_items = nil, -- Function to transform the items before they're returned
 					should_show_items = true, -- Whether or not to show the items
 					max_items = 15, -- Maximum number of items to display in the menu
-					min_keyword_length = 1, -- Minimum number of characters in the keyword to trigger the provider
+					min_keyword_length = 0, -- Minimum number of characters in the keyword to trigger the provider
 					-- If this provider returns 0 items, it will fallback to these providers.
 					-- If multiple providers falback to the same provider, all of the providers must return 0 items for it to fallback
 					-- fallbacks = {},
-					score_offset = 100, -- Boost/penalize the score of the items
-					override = nil, -- Override the source's functions
+					score_offset = 90, -- Boost/penalize the score of the items
 				},
 			},
 		},

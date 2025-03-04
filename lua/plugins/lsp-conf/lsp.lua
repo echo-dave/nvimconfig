@@ -12,8 +12,7 @@ local mason_bin_path = vim.fn.stdpath("data") .. "/mason/bin/"
 -- capabilities.textDocument.semanticTokens.multilineTokenSupport = true
 -- capabilities.textDocument.colorProvider = { dynamicRegistration = true }
 
-local blink_cmp = require("blink.cmp")
-local capabilities = blink_cmp.get_lsp_capabilities({ include_nvim_defaults = true })
+local capabilities = require("blink.cmp").get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
 return {
 	"lsp",
 	dir = vim.fn.stdpath("config") .. "/lua/plugins/lsp-conf",

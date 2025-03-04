@@ -26,5 +26,5 @@ local function gh_make_pr()
 	vim.cmd("startinsert")
 end
 
-vim.keymap.set("n", "<leader>gmi", gh_make_issue)
-vim.keymap.set("n", "<leader>gmp", gh_make_pr)
+vim.keymap.set("n", "<leader>gmi", gh_make_issue, { desc = "Make Gh Issue" })
+vim.keymap.set("n", "<leader>gmp", gh_make_pr, { desc = "Make Gh Pr" })

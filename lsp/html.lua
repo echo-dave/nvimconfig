@@ -1,5 +1,5 @@
 return {
-	cmd = { "vscode-html-languageserver", "--stdio" },
+	cmd = { "vscode-html-language-server", "--stdio" },
 	filetypes = { "html" },
 	root_markers = { "package.json", ".git" },
 	init_options = {

@@ -3,6 +3,10 @@ vim.g.mapleader = " "
 
 local key = vim.keymap.set
 -- lsp related
+key("n", "gD", vim.lsp.buf.definition, { desc = "Go to definition" })
+-- !NOTE: testing snacks picker due to telescope warning
+-- key("n", "gd", function() require("telescope.builtin").lsp_definitions() end, { desc = "Find definitions" })
+key("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Smart rename" })
 
 key("n", "[d", function()
 	vim.diagnostic.jump({ count = -1 })

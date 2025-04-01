@@ -11,6 +11,17 @@ local function runterm(command)
 	vim.api.nvim_chan_send(vim.b.terminal_job_id, command .. "\n")
 	vim.cmd("startinsert")
 end
+
+local function gh()
+	local result = vim.fn.system("command -v gh")
+	if result ~= "" then
+		return "gh "
+	else
+		return 'echo "Missing github cli"; return;'
+	end
+	-- vim.fn.system('if command -v gh; then return "gh "; else return "return"; fi')
+end
+
 return {
 
 	"folke/snacks.nvim",
@@ -26,7 +37,8 @@ return {
 			sections = {
 				{
 					title = "Notifications",
-					cmd = [[gh notify -sn 5 | awk 'function truncate(str, width) {                                                                                                           
+					cmd = gh()
+						.. [[notify -sn 5 | awk 'function truncate(str, width) {                                                                                                           
     if (length(str) > width - 2) {                                                                                                          
       return substr(str, 1, width - 2) ".."                                                                                                 
     } else {                                                                                                                                
@@ -38,7 +50,7 @@ return {
 					-- cmd = "gh notify -sn 5 | cut -c 1-110",
 					section = "terminal",
 					action = function()
-						runterm("gh notify")
+						runterm(gh() .. "notify")
 					end,
 					key = "n",
 					icon = " ",
@@ -52,11 +64,12 @@ return {
 					local cmds = {
 						{
 							title = "Issues",
-							cmd = "gh issue list --state all -L 5 --json number,title,state,labels,updatedAt --template "
+							cmd = gh()
+								.. "issue list --state all -L 5 --json number,title,state,labels,updatedAt --template "
 								.. ghformat,
 							key = "i",
 							action = function()
-								runterm("gh issue list -s all")
+								runterm(gh() .. "issue list -s all")
 							end,
 							icon = " ",
 							height = 5,
@@ -65,11 +78,12 @@ return {
 						{
 							icon = " ",
 							title = "PRs: magenta merged",
-							cmd = "gh pr list --state all -L 5 --json number,title,updatedAt,labels,state -t "
+							cmd = gh()
+								.. "pr list --state all -L 5 --json number,title,updatedAt,labels,state -t "
 								.. ghformat,
 							key = "P",
 							action = function()
-								runterm("gh pr list -s all")
+								runterm(gh() .. "pr list -s all")
 							end,
 							height = 5,
 						},

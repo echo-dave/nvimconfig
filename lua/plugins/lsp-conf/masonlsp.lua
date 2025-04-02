@@ -34,12 +34,12 @@ return {
 		mason_lspconfig.setup({
 			-- list of servers for mason to install
 			ensure_installed = {
-				"ts_ls",
+				-- "ts_ls",
 				-- "html",
 				-- "emmet_ls",
-				"cssls",
+				-- "cssls",
 				-- "tailwindcss",
-				"svelte",
+				-- "svelte",
 				"lua_ls",
 			},
 			automatic_installation = false,

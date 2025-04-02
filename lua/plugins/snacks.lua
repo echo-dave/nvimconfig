@@ -19,7 +19,6 @@ local function gh()
 	else
 		return 'echo "Missing github cli"; return;'
 	end
-	-- vim.fn.system('if command -v gh; then return "gh "; else return "return"; fi')
 end
 
 return {

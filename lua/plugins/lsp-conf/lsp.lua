@@ -59,7 +59,8 @@ return {
 		cmd_env = {
 			PATH = mason_bin_path .. ":" .. vim.env.PATH,
 		},
-		vim.lsp.set_log_level("warn"),
+		--vim.lsp.set_log_level("warn"),
+		vim.lsp.log.set_level(3),
 		vim.diagnostic.config({
 			virtual_text = true,
 			signs = {

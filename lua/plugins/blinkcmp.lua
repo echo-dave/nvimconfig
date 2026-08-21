@@ -110,9 +110,11 @@ return {
 			max_typos = function(keyword)
 				return math.floor(#keyword / 2)
 			end,
-			use_frecency = false,
+			frecency = {
+				enabled = true,
+				unsafe_no_lock = true,
+			},
 			use_proximity = true,
-			use_unsafe_no_lock = false,
 			sorts = { "score", "sort_text" },
 			prebuilt_binaries = {
 				download = true,

@@ -64,3 +64,4 @@ opt.spelllang = "en_us" -- spell for spell check use :set spell and :set nospell
 opt.showmode = false -- handled by lualine: insert, visual, normal
 opt.viminfo:append("h") -- prevent persistent searches (deprecated viminfo but shadafile not in use yet)
 opt.shada:append({ ["/"] = 0 }) -- prevent persistent searches
+opt.scrolloff = 10

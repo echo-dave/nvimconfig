@@ -1,4 +1,4 @@
-function gh_make_issue()
+local function gh_make_issue()
 	vim.cmd("enew")
 	vim.cmd("terminal")
 	-- Get the buffer number of the terminal
@@ -12,7 +12,7 @@ function gh_make_issue()
 	vim.cmd("startinsert")
 end
 
-function gh_make_pr()
+local function gh_make_pr()
 	vim.cmd("enew")
 	vim.cmd("terminal")
 	-- Get the buffer number of the terminal
@@ -26,5 +26,5 @@ function gh_make_pr()
 	vim.cmd("startinsert")
 end
 
-vim.keymap.set("n", "<leader>gmi", gh_make_issue)
-vim.keymap.set("n", "<leader>gmp", gh_make_pr)
+vim.keymap.set("n", "<leader>gmi", gh_make_issue, { desc = "Make Gh Issue" })
+vim.keymap.set("n", "<leader>gmp", gh_make_pr, { desc = "Make Gh Pr" })

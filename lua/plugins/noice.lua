@@ -89,6 +89,13 @@ return {
 			routes = {
 				{
 					filter = {
+						event = "notify",
+						find = "No information available",
+					},
+					opts = { skip = true },
+				},
+				{
+					filter = {
 						event = "msg_show",
 						kind = "",
 						find = "change",
@@ -144,5 +151,8 @@ return {
 	keys = {
 		{ "<leader>na", "<cmd>NoiceAll<cr>", desc = "Noice All" },
 		{ "<leader>nd", "<cmd>NoiceDismiss<cr>", desc = "Noice Dismiss" },
+		{ "<leader>nl", "<cmd>NoiceLast<cr>", desc = "Noice Last" },
+		{ "<leader>nm", "<cmd>NoiceHistory<cr>", desc = "Noice History" },
+		{ "<leader>np", "<cmd>NoicePick<cr>", desc = "Noice Pick" },
 	},
 }

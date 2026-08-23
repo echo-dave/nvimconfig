@@ -1,18 +1,32 @@
-local function getbranch()
-	local cmd = "git branch --show-current"
-	local branchName = vim.fn.system(cmd):gsub("\n", "")
-	return "Git Branch Status: " .. (branchName ~= "" and branchName or "not in a git repository")
-end
-local branch = getbranch()
-local ghformat =
-	'\'{{range .}}{{color "green" (printf "#%v" .number | printf "%-2s")}} {{.title | printf "%-20.20s"}} {{range .labels}}[{{.name | printf "%-.6s"}}]{{end}} {{timeago .updatedAt}}\n{{end}}\''
 local function shorten_path(full_path)
 	return vim.fn.fnamemodify(full_path, ":~")
 end
+local ghformat =
+	'\'{{range .}}{{$color := ""}}{{if eq .state "OPEN"}}{{$color = "green"}}{{else if eq .state "MERGED"}}{{$color = "magenta"}}{{else}}{{$color = "red"}}{{end}}{{tablerow (printf "#%v" .number | autocolor $color) .title (join "|" (pluck "name" .labels) | autocolor "blue") (timeago .updatedAt)}}{{end}}\''
+
+local function runterm(command)
+	vim.cmd("enew")
+	vim.cmd("terminal")
+	-- Send the gh notify command to the terminal
+	vim.api.nvim_chan_send(vim.b.terminal_job_id, command .. "\n")
+	vim.cmd("startinsert")
+end
+
+local function gh()
+	local result = vim.fn.system("command -v gh")
+	if result ~= "" then
+		return "gh "
+	else
+		return 'echo "Missing github cli"; return;'
+	end
+end
+
 return {
+
 	"folke/snacks.nvim",
 	priority = 1000,
 	lazy = false,
+	---@type snacks.Config
 	opts = {
 		-- your configuration comes here
 		-- or leave it empty to use the default settings
@@ -22,54 +36,73 @@ return {
 			sections = {
 				{
 					title = "Notifications",
-					cmd = "gh notify -san 4",
+					cmd = gh()
+						.. [[notify -sn 5 | awk 'function truncate(str, width) {                                                                                                           
+    if (length(str) > width - 2) {                                                                                                          
+      return substr(str, 1, width - 2) ".."                                                                                                 
+    } else {                                                                                                                                
+      return str                                                                                                                            
+    }}                                                                                                                                                                                                                                                                          
+{print $1,$2,truncate($4,30),$6}' | sed "s/\ /,/g" | cut -c 1-85| column -t -s ","
+]],
+					-- cmd = [[gh notify -sn 5 | awk '{print $1,$2,$4,$5,$6}' | sed 's/\ /,/g' | column -t -s ',' -c 80]],
+					-- cmd = "gh notify -sn 5 | cut -c 1-110",
 					section = "terminal",
 					action = function()
-						vim.ui.open("https://github.com/notifications")
+						runterm(gh() .. "notify")
 					end,
 					key = "n",
 					icon = " ",
-					height = 8,
+					height = 5,
 					enabled = true,
 					pane = 1,
+					padding = { 1, 0 }, --bottom, top
 				},
 				function()
 					local in_git = Snacks.git.get_root() ~= nil
 					local cmds = {
 						{
-							title = "Open Issues",
-							cmd = "gh issue list -L 3 --json number,title,updatedAt,labels -t " .. ghformat,
+							title = "Issues",
+							cmd = gh()
+								.. "issue list --state all -L 5 --json number,title,state,labels,updatedAt --template "
+								.. ghformat,
 							key = "i",
 							action = function()
-								vim.fn.jobstart("gh issue list --web", { detach = true })
+								runterm(gh() .. "issue list -s all")
 							end,
 							icon = " ",
-							height = 7,
+							height = 5,
 							padding = { 1, 0 }, --bottom, top
 						},
 						{
 							icon = " ",
-							title = "Open PRs",
-							cmd = "gh pr list -L 3 --json number,title,updatedAt,labels -t " .. ghformat,
+							title = "PRs: magenta merged",
+							cmd = gh()
+								.. "pr list --state all -L 5 --json number,title,updatedAt,labels,state -t "
+								.. ghformat,
 							key = "P",
 							action = function()
-								vim.fn.jobstart("gh pr list --web", { detach = true })
+								runterm(gh() .. "pr list -s all")
 							end,
-							height = 7,
+							height = 5,
 						},
 						{
 							icon = " ",
-							title = branch,
+							title = (function()
+								local branchName = vim.fn.system("git branch --show-current"):gsub("\n", "")
+								return "Git Branch Status: "
+									.. (branchName ~= "" and branchName or "not in a repository")
+							end)(),
 							align = "center",
-							cmd = "echo ''",
-							padding = { 0, 0 }, --bottom, top
-							height = 1,
-						},
-						{
 							cmd = "git --no-pager diff --stat -B -M -C",
+							padding = { 0, 0 }, --bottom, top
 							height = 8,
-							padding = { 0, -1 }, --bottom, top
 						},
+						-- {
+						-- 	cmd = "git --no-pager diff --stat -B -M -C",
+						-- 	height = 8,
+						-- 	padding = { 0, -1 }, --bottom, top
+						-- },
 					}
 					return vim.tbl_map(function(cmd)
 						return vim.tbl_extend("force", {
@@ -103,7 +136,7 @@ return {
 					pane = 3,
 					width = 10,
 					align = "left",
-					indent = 2,
+					icon = " ",
 				},
 				{ section = "startup" },
 			},
@@ -207,6 +240,13 @@ return {
 				Snacks.picker.buffers()
 			end,
 			desc = "Buffers",
+		},
+		{
+			"gd",
+			function()
+				Snacks.picker.lsp_definitions()
+			end,
+			desc = "Goto Definition",
 		},
 	},
 }

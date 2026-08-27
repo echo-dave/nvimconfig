@@ -10,3 +10,30 @@ vim.filetype.add({
 		["p10k.zsh"] = "sh",
 	},
 })
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = {
+		"html",
+		"css",
+		"scss",
+		"json",
+		"yaml",
+		"svelte",
+		"python",
+		"javascript",
+		"typescript",
+		"typescriptreact",
+		"tsx",
+		"bash",
+		"gitignore",
+		"query",
+		"vimdoc",
+		"toml",
+		"rust",
+		"go",
+		"c",
+		"c++",
+	},
+	callback = function()
+		vim.treesitter.start()
+	end,
+})

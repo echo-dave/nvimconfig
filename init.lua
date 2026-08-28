@@ -4,6 +4,7 @@ require("lazy_manager")
 require("theme")
 require("gh_cli")
 require("filetypes")
+require("treesitter")
 
 -- from github discussion: https://github.com/neovim/neovim/discussions/28010#discussioncomment-9877494
 local function paste()

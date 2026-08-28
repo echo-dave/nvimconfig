@@ -1,0 +1,47 @@
+#!/bin/bash
+# ~/.local/bin/build-nvim-parser
+
+set -e
+
+PARSER_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/nvim/parsers"
+mkdir -p "$PARSER_DIR"
+
+for repo in "$@"; do
+  lang=$(basename "$repo" | sed 's/tree-sitter-//')
+  tmp_dir=$(mktemp -d)
+# tmp_dir=$HOME/.local/share/nvim/parser-clones/typescript 
+
+  echo "Building $lang parser..."
+  git clone "git@github.com:$repo.git" "$tmp_dir" 
+ 
+  if [ -d "$tmp_dir/src" ]; then
+    # Single-language repo, build from root
+    (
+      cd "$tmp_dir"
+      # tree-sitter generate && echo "  ✓ generate"
+      tree-sitter build -o "$PARSER_DIR/$lang.so" && echo "  ✓ built" || echo "  ✗ build failed"
+    )
+  else
+    # Multi-language repo, find subdirs with src/
+    for build_dir in "$tmp_dir"/*; do
+      if [ -d "$build_dir/src" ]; then
+        subdir_name=$(basename "$build_dir")
+        (
+          cd "$build_dir"
+          # tree-sitter generate && echo "  ✓ $subdir_name generate"
+          tree-sitter build -o "$PARSER_DIR/$subdir_name.so" && echo "  ✓ $subdir_name built"
+        )
+      fi
+    done
+  fi
+
+
+
+  # cd "$tmp_dir"
+  #   tree-sitter build -o "$PARSER_DIR/${lang}.so"
+  # echo "✓ $lang installed"
+
+#  cp build/output.so "$PARSER_DIR/${lang}.so"
+done
+
+echo "Parsers installed to $PARSER_DIR"

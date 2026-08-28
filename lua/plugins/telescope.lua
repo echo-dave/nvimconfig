@@ -28,6 +28,9 @@ return {
 
 		telescope.setup({
 			pickers = {
+				find_files = {
+					hidden = true,
+				},
 				buffers = {
 					mappings = {
 						n = {
@@ -40,6 +43,9 @@ return {
 				},
 			},
 			defaults = {
+				file_ignore_patterns = {
+					"^%.git/",
+				},
 				initial_mode = "insert",
 				path_display = { "smart" },
 				mappings = {

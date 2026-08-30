@@ -37,6 +37,11 @@
 - blink-cmp with builtin vim.lsp.config
 - diff-view added `<leader>gd` or `<leader>gh` for current file history
 
+## Known Issues
+
+- #8 Dashboard layout buggy when too small a window. Known issue wiht terminal output.
+- #9 Terminal comands run from dashboard may still interact with snacks dashboard if git commands havne't completed
+
 ## Plugin List
 
 | [#Git](#git) | [#Coding-Centric](#coding-centric-formatters-and-code-helpers) | [#UI-Related](#ui-related) | [#Utility](#utility) |
@@ -52,6 +57,7 @@
 - [**gitsigns**](https://github.com/lewis6991/gitsigns.nvim) - gutter indicator of changes, stage hunks or buffers, preview hunk changes, blame lines keymaps `<leader>hp` `<leader>hs`
   h
 - [**neogit**](https://github.com/NeogitOrg/neogit) - git for nvim with log, diff, and all the normal git commands `:Neogit`
+  [**diffview**](https://github.com/sindrets/diffview.nvim) - diff for cuffent file among other diff options
 
 ### Coding-Centric Formatters and Code Helpers
 
@@ -68,7 +74,7 @@
 
 - [**colorscheme**](https://github.com/catppuccin/nvim) - choice of color scheme config for catppuccin
 - ~~[**dressing**](https://github.com/stevearc/dressing.nvim) - some ui visual things - moves some dialogs out of the bottom left foe better visibility / readability like nvim-tree add or rename files~~
-- [**indent-blankline**](https://github.com/lukas-reineke/indent-blankline.nvim) - set indentation guide indicators
+- ~~[**indent-blankline**](https://github.com/lukas-reineke/indent-blankline.nvim) - set indentation guide indicators~~
 - [**lualine**](https://github.com/nvim-lualine/lualine.nvim) - status line options for git branch, diff, better mode visibility, hostname etc
 - [**noice**](https://github.com/folke/noice.nvim) - UI customizations like relocating command input and search centrally on screen some lsp popup updates and message handling - :Noice errors for a popup of error messages
 

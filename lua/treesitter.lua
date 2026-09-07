@@ -12,8 +12,8 @@ local filetype_to_parser = {
 	tsx = "tree-sitter/tree-sitter-typescript",
 	bash = "tree-sitter/tree-sitter-bash",
 	gitignore = "shunsambongi/tree-sitter-gitignore",
-	query = "tree-sitter-grammars/tree-sitter-query",
-	vimdoc = "neovim/tree-sitter-vimdoc",
+	-- query = "tree-sitter-grammars/tree-sitter-query",
+	-- vimdoc = "neovim/tree-sitter-vimdoc",
 	toml = "tree-sitter-grammars/tree-sitter-toml",
 }
 
